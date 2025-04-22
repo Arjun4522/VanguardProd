@@ -19,3 +19,8 @@ __pycache__/
 *.pyc
 kafka_2.13-3.6.1/
 prometheus-2.51.0.linux-amd64/
+kafka_2.13-3.6.1/
+prometheus-2.51.0.linux-amd64/
+../env/
+../env2/
+../test/
