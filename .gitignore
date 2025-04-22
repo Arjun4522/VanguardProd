@@ -1,0 +1,19 @@
+# Ignore large binaries
+*.jar
+*.exe
+*.zip
+*.tar
+*.gz
+*.img
+
+# Prometheus
+prometheus-2.51.0.linux-amd64/prometheus
+prometheus-2.51.0.linux-amd64/promtool
+
+# Kafka JAR
+kafka_2.13-3.6.1/libs/rocksdbjni-7.9.2.jar
+
+# Node & Python junk
+node_modules/
+__pycache__/
+*.pyc

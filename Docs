@@ -1,0 +1,18 @@
+source env/bin/activate
+
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+bin/kafka-server-start.sh config/server.properties
+
+
+sudo python3 kafka_produce_capture.py -i wlo1 --kafka-brokers "localhost:9092" --kafka-topic "network-flows" --log-level INFO
+
+
+sudo python3 kafka_consume_db.py --db-host localhost --db-port 5432 --db-name netflows --db-user network_admin --db-password securepassword123 --kafka-brokers localhost:9092 --kafka-topic network_flows --log-level INFO
+
+
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic network-flows --from-beginning
+
+source env2/bin/activate
+
+python3 kafka_consume_api.py
