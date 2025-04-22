@@ -1,21 +1,25 @@
-import StatusCard from "./components/StatusCard"
-import CountCard from "./components/CountCard"
-import LogTable from "./components/LogTable"
-
+import { useEffect, useState } from "react"
 import Header from "./components/Header"
+import AgentGrid from "./components/AgentGrid"
 
 function App() {
+  const [agents, setAgents] = useState([])
+
+  useEffect(() => {
+    const config = JSON.parse(localStorage.getItem("ids_config") || "{}")
+    const agentsApi = config.apiEndpoints?.find(e => e.includes("agents")) || "/api/agents"
+    const agentsURL = `${config.serverAddress}${agentsApi}`
+
+    fetch(agentsURL)
+      .then(res => res.json())
+      .then(data => setAgents(data))
+      .catch(err => console.error("Failed to fetch agents:", err))
+  }, [])
+
   return (
-    <div className="bg-[#1a1a1a] h-screen">
-      <Header/>
-      <div className="flex gap-5 p-5">
-        <StatusCard />
-        <CountCard />
-      </div>
-      {/* list view */}
-      <div className="flex justify-center">
-        <LogTable/>
-      </div>
+    <div className="flex flex-col gap-4 flex-grow">
+      <Header />
+      <AgentGrid agents={agents} />
     </div>
   )
 }
