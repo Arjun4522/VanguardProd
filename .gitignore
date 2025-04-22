@@ -17,3 +17,5 @@ kafka_2.13-3.6.1/libs/rocksdbjni-7.9.2.jar
 node_modules/
 __pycache__/
 *.pyc
+kafka_2.13-3.6.1/
+prometheus-2.51.0.linux-amd64/
