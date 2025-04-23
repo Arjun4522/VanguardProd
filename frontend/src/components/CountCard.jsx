@@ -7,8 +7,11 @@ function CountCard({ agentId }) {
 
   useEffect(() => {
     const config = JSON.parse(localStorage.getItem("ids_config") || "{}")
-    const statsApi = config.apiEndpoints?.find(e => e.includes("stats")) || "/api/stats"
-    const statsURL = `${config.serverAddress}${statsApi}?agentId=${agentId}`
+    let base = config.serverAddress || "http://localhost:3001"
+    if (!base.endsWith("/")) base += "/"
+
+    const statsApi = config.apiEndpoints?.find(e => e.includes("stats")) || "api/stats"
+    const statsURL = `${base}${statsApi}?agentId=${agentId}`
 
     fetch(statsURL)
       .then(res => res.json())

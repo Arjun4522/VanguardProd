@@ -12,9 +12,19 @@ function AddAgentForm({ onChange }) {
   };
 
   const handleAddAgent = () => {
-    onChange(newAgent);
-    setNewAgent({ id: "", ip: "", status: "offline" }); // Reset after adding
-  };
+    fetch("http://localhost:3001/api/agents", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newAgent),
+    })
+      .then(res => res.json())
+      .then(() => {
+        onChange(newAgent)
+        setNewAgent({ id: "", ip: "", status: "offline" })
+      })
+      .catch(console.error)
+  }
+  
 
   return (
     <div className="space-y-4">

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "QW32RF45ZA",
+    "ip": "192.168.1.2",
+    "status": "online",
+    "lastSeen": "2025-04-22T09:55:00Z"
+  },
+  {
+    "id": "JU98DE17CD",
+    "ip": "192.168.1.3",
+    "status": "offline",
+    "lastSeen": "2025-04-22T08:12:00Z"
+  },
+  {
+    "id": "NH65GFER12",
+    "ip": "192.168.1.4",
+    "status": "online",
+    "lastSeen": "2025-04-22T09:58:30Z"
+  }
+]
