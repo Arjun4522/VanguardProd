@@ -2,6 +2,7 @@
 numpy
 scapy
 kafka-python
+aiokafka  # added for async Kafka consumer
 psycopg2-binary
 fastapi
 uvicorn
@@ -9,5 +10,10 @@ redis
 redis-py-cluster
 pydantic
 
+# Async/WebSocket support
+websockets  # for WebSocket support
+asyncio  # for async operations
+
 # Optional but recommended
 gunicorn  # for FastAPI production server
+python-multipart  # if handling file uploads with FastAPI
