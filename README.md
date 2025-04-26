@@ -1,78 +1,60 @@
 # VanguardProd
 
-Vanguard: Versatile Aggregation for Networked Governance Using Unified AI with Reinforced Decisioning (VANGUARD)
-VANGUARD is an advanced, modular network intrusion detection and governance system that integrates cutting-edge techniques in artificial intelligence (AI), federated learning, differential privacy (DP), and blockchain-inspired aggregation mechanisms to ensure real-time, scalable, and secure detection of network anomalies and cyber threats.
+# Vanguard: Versatile Aggregation for Networked Governance Using Unified AI with Reinforced Decisioning (VANGUARD)
+
+**VANGUARD** is an advanced, modular network intrusion detection and governance system that integrates cutting-edge techniques in artificial intelligence (AI), federated learning, differential privacy (DP), and blockchain-inspired aggregation mechanisms to ensure real-time, scalable, and secure detection of network anomalies and cyber threats.
 
 The system is designed to optimize the detection of malicious activities in highly distributed network environments, such as enterprise infrastructures or Internet of Things (IoT) networks. It leverages a combination of federated learning, reinforcement learning (RL), multi-party aggregation, and differential privacy to create a robust and adaptive defense system that evolves and adapts as new threats emerge, all while preserving the privacy of the data it processes.
 
-Key Features and Components
-Global and Local Model Architecture:
+## Key Features and Components
 
-Global Model: A Random Forest model is initially trained on a large, public dataset (such as the CIC-IDS-2017 collection). This global model acts as a foundational intrusion detection engine.
+### 1. Global and Local Model Architecture:
+- **Global Model**: A Random Forest model is initially trained on a large, public dataset (such as the CIC-IDS-2017 collection). This global model acts as a foundational intrusion detection engine.
+- **Local Fine-Tuning**: The model is distributed to local nodes (such as remote devices or edge servers) where it undergoes fine-tuning. The fine-tuning process incorporates reinforcement learning (RL) for dynamic decision-making and uses Nash Bargaining to optimally allocate resources for differential privacy budget.
 
-Local Fine-Tuning: The model is distributed to local nodes (such as remote devices or edge servers) where it undergoes fine-tuning. The fine-tuning process incorporates reinforcement learning (RL) for dynamic decision-making and uses Nash Bargaining to optimally allocate resources for differential privacy budget.
-
-Differential Privacy (DP) and Privacy-Preserving Learning:
-
+### 2. Differential Privacy (DP) and Privacy-Preserving Learning:
 To ensure the privacy of data used in training, the system introduces Gaussian noise into the fine-tuning process. This ensures the differential privacy of the individual data contributors and prevents leakage of sensitive information.
 
-Federated Learning Framework:
+### 3. Federated Learning Framework:
+- **Federated Learning** is employed to train machine learning models across distributed nodes without requiring the data to leave individual systems. This helps maintain data privacy and minimizes the need for expensive central storage or computation.
+- The fine-tuned local models are aggregated back into the global model using a blockchain-inspired, reputation-based aggregation mechanism called **Multi-Krum**, which ensures robust aggregation even in the presence of Byzantine failures (faulty or malicious nodes).
 
-Federated Learning is employed to train machine learning models across distributed nodes without requiring the data to leave individual systems. This helps maintain data privacy and minimizes the need for expensive central storage or computation.
+### 4. Anomaly Detection with Random Forest Classifier:
+The system’s core detection engine is based on a **Random Forest** algorithm, which is trained and continuously updated on network traffic patterns. This allows the system to detect anomalies (such as DDoS attacks, port scanning, or unauthorized access) effectively.
 
-The fine-tuned local models are aggregated back into the global model using a blockchain-inspired, reputation-based aggregation mechanism called Multi-Krum, which ensures robust aggregation even in the presence of Byzantine failures (faulty or malicious nodes).
+### 5. Real-Time Data Streaming and Monitoring:
+- The system employs a **Kafka-based** architecture for real-time message streaming and event processing. Network traffic data is captured and transmitted using **Scapy** for packet capture and **Kafka** for data streaming.
+- In addition, **Prometheus** and **Grafana** are used for continuous monitoring of network performance and ML model metrics, providing a dashboard that visualizes both the network traffic and anomaly detection results in real time.
 
-Anomaly Detection with Random Forest Classifier:
+### 6. Secure Aggregation and Byzantine Fault Tolerance (BFT):
+The system ensures secure aggregation using **Byzantine Fault Tolerance (BFT)** mechanisms, which provide resilience against faulty nodes and ensure that malicious actions do not corrupt the global model.
 
-The system’s core detection engine is based on a Random Forest algorithm, which is trained and continuously updated on network traffic patterns. This allows the system to detect anomalies (such as DDoS attacks, port scanning, or unauthorized access) effectively.
+The use of **Apache Kafka** enables secure communication between nodes, ensuring the efficient transmission of models and updates.
 
-Real-Time Data Streaming and Monitoring:
+### 7. API and Real-Time Analytics:
+The system is integrated with a **FastAPI** backend that provides RESTful API access for querying system status, retrieving real-time anomaly data, and managing model updates.
 
-The system employs a Kafka-based architecture for real-time message streaming and event processing. Network traffic data is captured and transmitted using Scapy for packet capture and Kafka for data streaming.
+Additionally, **Redis** is used for fast, in-memory data storage, providing efficient access to time-series data and ensuring low-latency performance for real-time analysis.
 
-In addition, Prometheus and Grafana are used for continuous monitoring of network performance and ML model metrics, providing a dashboard that visualizes both the network traffic and anomaly detection results in real time.
+### 8. Front-End Visualization:
+The **React.js**-based frontend provides an intuitive, user-friendly dashboard for visualizing network traffic, model predictions, and anomaly detection results.
 
-Secure Aggregation and Byzantine Fault Tolerance (BFT):
+This dashboard includes dynamic visualizations of network data and statistics, using libraries like **React Force Graph** to display network topologies and traffic flows.
 
-The system ensures secure aggregation using Byzantine Fault Tolerance (BFT) mechanisms, which provide resilience against faulty nodes and ensure that malicious actions do not corrupt the global model.
+## Technical Stack
+- **Backend**: Python, FastAPI, Kafka, Scapy, Redis, PostgreSQL, Apache Kafka, Prometheus, Grafana
+- **Machine Learning**: Random Forest, Reinforcement Learning, Federated Learning, Differential Privacy
+- **Frontend**: React.js, Vite, Material UI, React Force Graph
+- **Distributed Computing**: Federated Learning, Multi-Krum Aggregation, Byzantine Fault Tolerance (BFT)
+- **Data Streaming**: Kafka
+- **Time-Series Data**: RedisTimeSeries, Prometheus
+- **Deployment**: Docker, Kubernetes (optional)
 
-The use of Apache Kafka enables secure communication between nodes, ensuring the efficient transmission of models and updates.
-
-API and Real-Time Analytics:
-
-The system is integrated with a FastAPI backend that provides RESTful API access for querying system status, retrieving real-time anomaly data, and managing model updates.
-
-Additionally, Redis is used for fast, in-memory data storage, providing efficient access to time-series data and ensuring low-latency performance for real-time analysis.
-
-Front-End Visualization:
-
-The React.js-based frontend provides an intuitive, user-friendly dashboard for visualizing network traffic, model predictions, and anomaly detection results.
-
-This dashboard includes dynamic visualizations of network data and statistics, using libraries like React Force Graph to display network topologies and traffic flows.
-
-Technical Stack
-Backend: Python, FastAPI, Kafka, Scapy, Redis, PostgreSQL, Apache Kafka, Prometheus, Grafana
-
-Machine Learning: Random Forest, Reinforcement Learning, Federated Learning, Differential Privacy
-
-Frontend: React.js, Vite, Material UI, React Force Graph
-
-Distributed Computing: Federated Learning, Multi-Krum Aggregation, Byzantine Fault Tolerance (BFT)
-
-Data Streaming: Kafka
-
-Time-Series Data: RedisTimeSeries, Prometheus
-
-Deployment: Docker, Kubernetes (optional)
-
-Use Cases
-Enterprise Network Security: VANGUARD is ideal for large-scale network infrastructures that require real-time anomaly detection and adaptive learning to protect against evolving threats.
-
-IoT Security: The system's federated learning architecture is well-suited for IoT networks, where distributed devices need local training while preserving the privacy of sensitive data.
-
-Cloud Security: VANGUARD can be deployed in cloud environments for continuous monitoring and anomaly detection, ensuring the security of cloud-hosted services and applications.
-
-Privacy-Preserving Machine Learning: VANGUARD’s use of differential privacy ensures that even sensitive user data can be used for machine learning without compromising privacy.
+## Use Cases
+- **Enterprise Network Security**: VANGUARD is ideal for large-scale network infrastructures that require real-time anomaly detection and adaptive learning to protect against evolving threats.
+- **IoT Security**: The system's federated learning architecture is well-suited for IoT networks, where distributed devices need local training while preserving the privacy of sensitive data.
+- **Cloud Security**: VANGUARD can be deployed in cloud environments for continuous monitoring and anomaly detection, ensuring the security of cloud-hosted services and applications.
+- **Privacy-Preserving Machine Learning**: VANGUARD’s use of differential privacy ensures that even sensitive user data can be used for machine learning without compromising privacy.
 
 ---
 
