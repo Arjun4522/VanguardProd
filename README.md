@@ -1,6 +1,6 @@
-# VanguardProd
+# Vanguard
 
-# Vanguard: Versatile Aggregation for Networked Governance Using Unified AI with Reinforced Decisioning (VANGUARD)
+# Vanguard: Versatile Aggregation for Networked Governance Using Unified AI with Reinforced Decisioning 
 
 **VANGUARD** is an advanced, modular network intrusion detection and governance system that integrates cutting-edge techniques in artificial intelligence (AI), federated learning, differential privacy (DP), and blockchain-inspired aggregation mechanisms to ensure real-time, scalable, and secure detection of network anomalies and cyber threats.
 
