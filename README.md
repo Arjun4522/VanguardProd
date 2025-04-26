@@ -81,7 +81,7 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic network-
 
 ### 1. Navigate to the frontend directory
 ```bash
-cd /path/to/your/ids-dashboard
+cd ids-dashboard
 ```
 ### 2. Install Frontend Dependencies
 ```bash
