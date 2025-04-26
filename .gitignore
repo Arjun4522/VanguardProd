@@ -1,0 +1,4 @@
+**/node_modules/
+**/vanguard_env/
+backend/production/kafka_2.13-3.6.1/
+*.tar.gz

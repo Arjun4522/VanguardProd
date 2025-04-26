@@ -1,0 +1,123 @@
+[
+  {
+    "src_ip": "18.67.233.90",
+    "dst_ip": "192.168.0.108",
+    "src_port": 443,
+    "dst_port": 56898,
+    "protocol": 6,
+    "flow_duration": 240146432.8765869,
+    "total_packets": 38,
+    "total_bytes": 5995,
+    "timestamp": 1745586419.6298687
+  },
+  {
+    "src_ip": "192.168.0.148",
+    "dst_ip": "192.168.0.255",
+    "src_port": 47542,
+    "dst_port": 15600,
+    "protocol": 17,
+    "flow_duration": 12.39776611328125,
+    "total_packets": 1,
+    "total_bytes": 77,
+    "timestamp": 1745586301.5667074
+  },
+  {
+    "src_ip": "142.250.195.227",
+    "dst_ip": "192.168.0.108",
+    "src_port": 443,
+    "dst_port": 60340,
+    "protocol": 17,
+    "flow_duration": 271692.27600097656,
+    "total_packets": 20,
+    "total_bytes": 9989,
+    "timestamp": 1745586303.2221048
+  },
+  {
+    "src_ip": "142.250.207.74",
+    "dst_ip": "192.168.0.108",
+    "src_port": 443,
+    "dst_port": 58066,
+    "protocol": 6,
+    "flow_duration": 61739122.86758423,
+    "total_packets": 23,
+    "total_bytes": 13974,
+    "timestamp": 1745586308.8094912
+  },
+  {
+    "src_ip": "192.168.0.148",
+    "dst_ip": "239.255.255.250",
+    "src_port": 48066,
+    "dst_port": 15600,
+    "protocol": 17,
+    "flow_duration": 4.5299530029296875,
+    "total_packets": 1,
+    "total_bytes": 77,
+    "timestamp": 1745586304.7409713
+  },
+  {
+    "src_ip": "192.168.0.148",
+    "dst_ip": "192.168.0.255",
+    "src_port": 60542,
+    "dst_port": 15600,
+    "protocol": 17,
+    "flow_duration": 5.9604644775390625,
+    "total_packets": 1,
+    "total_bytes": 77,
+    "timestamp": 1745586307.6096466
+  },
+  {
+    "src_ip": "192.168.0.148",
+    "dst_ip": "239.255.255.250",
+    "src_port": 52393,
+    "dst_port": 15600,
+    "protocol": 17,
+    "flow_duration": 12.159347534179688,
+    "total_packets": 1,
+    "total_bytes": 77,
+    "timestamp": 1745586310.5802946
+  },
+  {
+    "src_ip": "192.168.0.148",
+    "dst_ip": "192.168.0.255",
+    "src_port": 51921,
+    "dst_port": 15600,
+    "protocol": 17,
+    "flow_duration": 12.159347534179688,
+    "total_packets": 1,
+    "total_bytes": 77,
+    "timestamp": 1745586313.551195
+  },
+  {
+    "src_ip": "192.168.0.108",
+    "dst_ip": "54.192.151.127",
+    "src_port": 33200,
+    "dst_port": 443,
+    "protocol": 6,
+    "flow_duration": 61092502.35557556,
+    "total_packets": 19,
+    "total_bytes": 3722,
+    "timestamp": 1745586316.9132583
+  },
+  {
+    "src_ip": "192.168.0.148",
+    "dst_ip": "239.255.255.250",
+    "src_port": 42725,
+    "dst_port": 15600,
+    "protocol": 17,
+    "flow_duration": 5.9604644775390625,
+    "total_packets": 1,
+    "total_bytes": 77,
+    "timestamp": 1745586316.6237204
+  },
+  {
+    "src_ip": "192.168.0.148",
+    "dst_ip": "192.168.0.255",
+    "src_port": 57180,
+    "dst_port": 15600,
+    "protocol": 17,
+    "flow_duration": 10.967254638671875,
+    "total_packets": 1,
+    "total_bytes": 77,
+    "timestamp": 1745586319.5946171
+  }
+]

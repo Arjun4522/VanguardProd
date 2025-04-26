@@ -1,0 +1,13 @@
+# Core libraries
+numpy
+scapy
+kafka-python
+psycopg2-binary
+fastapi
+uvicorn
+redis
+redis-py-cluster
+pydantic
+
+# Optional but recommended
+gunicorn  # for FastAPI production server

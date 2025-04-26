@@ -1,0 +1,11 @@
+{
+  "src_ip": "192.168.0.1",
+  "dst_ip": "192.168.0.108",
+  "src_port": 53,
+  "dst_port": 33424,
+  "protocol": 17,
+  "flow_duration": 15857.219696044922,
+  "total_packets": 2,
+  "total_bytes": 578,
+  "timestamp": 1745586440.8167977
+}

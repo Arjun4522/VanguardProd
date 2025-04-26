@@ -1,94 +1,21 @@
 #!/usr/bin/env python3
 """
-FastAPI Consumer for Real-time Network Flow Data
+FastAPI Consumer with Async Kafka & WebSocket
 """
-
-from fastapi import FastAPI, HTTPException
-from kafka import KafkaConsumer
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
+from aiokafka import AIOKafkaConsumer
 from pydantic import BaseModel
 import json
-import threading
+import asyncio
 from collections import deque
 import logging
-import signal
-import sys
-import time
 from contextlib import asynccontextmanager
-from typing import Optional
+from typing import Optional, List
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger('api_consumer')
-
-# Global storage for latest flows (last 1000 flows)
-RECENT_FLOWS = deque(maxlen=1000)
-KAFKA_CONSUMER_RUNNING = True
-
-class NetworkFlow(BaseModel):
-    src_ip: str
-    dst_ip: str
-    src_port: int
-    dst_port: int
-    protocol: int
-    flow_duration: float
-    total_packets: int
-    total_bytes: int
-    timestamp: float
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Manage startup and shutdown events"""
-    kafka_thread = threading.Thread(
-        target=start_kafka_consumer,
-        args=(['localhost:9092'], 'network-flows'),
-        daemon=True
-    )
-    kafka_thread.start()
-    logger.info("Started Kafka consumer thread")
-
-    yield  # App is running
-
-    global KAFKA_CONSUMER_RUNNING
-    KAFKA_CONSUMER_RUNNING = False
-    logger.info("Shutting down Kafka consumer")
-
-app = FastAPI(
-    title="Network Flow API",
-    description="Real-time network flow monitoring API",
-    lifespan=lifespan
-)
-
-def start_kafka_consumer(bootstrap_servers, topic):
-    """Kafka consumer thread function"""
-    try:
-        consumer = KafkaConsumer(
-            topic,
-            bootstrap_servers=bootstrap_servers,
-            auto_offset_reset='latest',
-            value_deserializer=lambda x: json.loads(x.decode('utf-8')),
-            consumer_timeout_ms=1000
-        )
-        logger.info(f"Connected to Kafka: {bootstrap_servers}, topic: {topic}")
-    except Exception as e:
-        logger.error(f"Kafka connection failed: {e}")
-        return
-
-    global KAFKA_CONSUMER_RUNNING
-    while KAFKA_CONSUMER_RUNNING:
-        try:
-            for message in consumer:
-                if not KAFKA_CONSUMER_RUNNING:
-                    break
-                flow_data = message.value
-                RECENT_FLOWS.append(flow_data)
-                logger.debug(f"Received flow: {flow_data.get('src_ip')} → {flow_data.get('dst_ip')}")
-        except Exception as e:
-            logger.error(f"Kafka consumer error: {e}")
-            time.sleep(1)
-
-    consumer.close()
-    logger.info("Kafka consumer stopped")
-
+# ----------------------
+# Utility Functions First
+# ----------------------
 def enrich_flow(flow: dict) -> dict:
     """Add total_bytes field to a flow dict"""
     return {
@@ -103,27 +30,121 @@ def enrich_flow(flow: dict) -> dict:
         "total_bytes": flow.get("total_fwd_bytes", 0) + flow.get("total_bwd_bytes", 0)
     }
 
-@app.get("/flows", response_model=list[NetworkFlow], summary="Get recent flows")
+# ----------------------
+# Core Application Setup
+# ----------------------
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('api_consumer')
+
+RECENT_FLOWS = deque(maxlen=1000)
+
+class NetworkFlow(BaseModel):
+    src_ip: str
+    dst_ip: str
+    src_port: int
+    dst_port: int
+    protocol: int
+    flow_duration: float
+    total_packets: int
+    total_bytes: int
+    timestamp: float
+
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def broadcast(self, message: str):
+        for connection in self.active_connections:
+            try:
+                await connection.send_text(message)
+            except Exception as e:
+                logger.error(f"Broadcast error: {e}")
+                self.disconnect(connection)
+
+manager = ConnectionManager()
+
+# ----------------------
+# Application Lifespan
+# ----------------------
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    asyncio.create_task(consume_kafka_messages())
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ----------------------
+# Kafka Consumer
+# ----------------------
+async def consume_kafka_messages():
+    try:
+        consumer = AIOKafkaConsumer(
+            'network-flows',
+            bootstrap_servers='127.0.0.1:9092',
+            auto_offset_reset='earliest',
+            value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+        )
+        await consumer.start()
+        logger.info("Kafka consumer started")
+
+        async for message in consumer:
+            flow_data = message.value
+            RECENT_FLOWS.append(flow_data)
+            await manager.broadcast(json.dumps(flow_data))
+            logger.info(f"Stored flow: {flow_data.get('src_ip')}")
+
+        await consumer.stop()
+    except Exception as e:
+        logger.error(f"Kafka failure: {e}")
+
+# ----------------------
+# WebSocket Endpoint
+# ----------------------
+@app.websocket("/flows/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+
+# ----------------------
+# HTTP Endpoints
+# ----------------------
+@app.get("/flows", response_model=List[NetworkFlow])
 async def get_recent_flows(limit: int = 100):
-    """Get list of recent network flows"""
     if not RECENT_FLOWS:
-        raise HTTPException(status_code=404, detail="No flows available")
+        raise HTTPException(404, "No flows available")
     return [enrich_flow(f) for f in list(RECENT_FLOWS)[-limit:]]
 
-@app.get("/flows/latest", response_model=NetworkFlow, summary="Get latest flow")
+@app.get("/flows/latest", response_model=NetworkFlow)
 async def get_latest_flow():
-    """Get the most recent network flow"""
     if not RECENT_FLOWS:
-        raise HTTPException(status_code=404, detail="No flows available")
+        raise HTTPException(404, "No flows available")
     return enrich_flow(RECENT_FLOWS[-1])
 
-@app.get("/flows/search", summary="Search flows by criteria")
+@app.get("/flows/search")
 async def search_flows(
     src_ip: Optional[str] = None,
     dst_ip: Optional[str] = None,
     protocol: Optional[int] = None
 ):
-    """Search flows by source/destination IP or protocol"""
     results = []
     for flow in RECENT_FLOWS:
         if src_ip and flow.get('src_ip') != src_ip:
@@ -133,9 +154,9 @@ async def search_flows(
         if protocol is not None and flow.get('protocol') != protocol:
             continue
         results.append(enrich_flow(flow))
-
+    
     if not results:
-        raise HTTPException(status_code=404, detail="No matching flows found")
+        raise HTTPException(404, "No matching flows found")
     return results
 
 if __name__ == "__main__":
