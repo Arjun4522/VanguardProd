@@ -94,14 +94,16 @@ pip install -r backend/production/requirements.txt
 cd backend/production/kafka_2.13-3.6.1
 bin/zookeeper-server-start.sh config/zookeeper.properties
 
-# In a new terminal (keep Zookeeper running)
+# In a new terminal start kafka service(keep Zookeeper running)
 bin/kafka-server-start.sh config/server.properties
+
 # Create topic network-flows'
 bin/kafka-topics.sh --create \
   --topic network-flows \
   --bootstrap-server localhost:9092 \
   --partitions 3 \
   --replication-factor 1
+
 # Test topic creation
 bin/kafka-topics.sh --list --bootstrap-server localhost:9092
 ```
