@@ -75,6 +75,7 @@ source vanguard_env/bin/activate
 ```
 ### 3. Download and setup kafka binaries
 ```bash
+cd backend/production
 wget kafka_2.13-3.6.1.tar.gz
 tar -xvzf kafka_2.13-3.6.1.tar.gz
 ```
