@@ -117,7 +117,7 @@ sudo python3 backend/production/kafka_consume_db.py \
 ```
 #### 3.3 Start API Server (FastAPI + WebSocket)
 ```bash
-uvicorn kafka_consume_api:app --reload --ws websockets
+uvicorn kafka_consume_api:app --port 8888
 ```
 #### 3.4 # Run RedisTimeSeries in Docker
 ```bash
