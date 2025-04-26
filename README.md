@@ -158,7 +158,7 @@ cd ids-dashboard
 ```bash
 npm install
 ```
-### 3. 3. Run the Development Server
+### 3. Run the Development Server
 ```bash
 npm run dev
 ```
