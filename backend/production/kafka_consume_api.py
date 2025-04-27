@@ -4,6 +4,7 @@ FastAPI Consumer with Async Kafka & WebSocket
 """
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+import httpx
 from aiokafka import AIOKafkaConsumer
 from pydantic import BaseModel
 import json
@@ -96,7 +97,8 @@ async def consume_kafka_messages():
         consumer = AIOKafkaConsumer(
             'network-flows',
             bootstrap_servers='127.0.0.1:9092',
-            auto_offset_reset='earliest',
+            auto_offset_reset='latest',
+            max_poll_records=100,
             value_deserializer=lambda x: json.loads(x.decode('utf-8'))
         )
         await consumer.start()
@@ -158,6 +160,15 @@ async def search_flows(
     if not results:
         raise HTTPException(404, "No matching flows found")
     return results
+
+@app.get("/geoip/{ip_address}")
+async def get_geoip(ip_address: str):
+    # Add your geo-IP service call here
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"https://ipapi.co/{ip_address}/json/")
+        print(response)
+        print("hi")
+        return response.json()
 
 if __name__ == "__main__":
     import uvicorn

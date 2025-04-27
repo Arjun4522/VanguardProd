@@ -9,6 +9,7 @@ uvicorn
 redis
 redis-py-cluster
 pydantic
+httpx  # for async HTTP requests
 
 # Async/WebSocket support
 websockets  # for WebSocket support
