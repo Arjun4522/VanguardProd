@@ -105,7 +105,7 @@ async def consume_kafka_messages():
         async for message in consumer:
             flow_data = message.value
             RECENT_FLOWS.append(flow_data)
-            await manager.broadcast(json.dumps(flow_data))
+            await manager.broadcast(json.dumps(flow_data))  # Send the flow data to all WebSocket clients
             logger.info(f"Stored flow: {flow_data.get('src_ip')}")
 
         await consumer.stop()
