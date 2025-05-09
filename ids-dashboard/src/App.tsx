@@ -44,6 +44,17 @@ const App: React.FC = () => {
           '#root': {
             minHeight: '100vh',
           },
+          '*': {
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#90caf9 #1e1e1e',
+          },
+          '*::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#90caf9',
+            borderRadius: '8px',
+          },
         }}
       />
       <FlowProvider>
@@ -61,16 +72,26 @@ const DashboardContent: React.FC = () => {
       <Box sx={{ gridArea: 'stats' }}>
         <QuickStats />
       </Box>
-      
-      <Box sx={{ gridArea: 'map' }}>
+
+      <Box sx={{ gridArea: 'map', overflow: 'hidden' }}>
         <NetworkMap />
       </Box>
-      
-      <Box sx={{ gridArea: 'alerts' }}>
+
+      <Box sx={{ gridArea: 'alerts', overflowY: 'auto' }}>
         <AlertFeed />
       </Box>
-      
-      <Box sx={{ gridArea: 'flows' }}>
+
+      <Box
+        sx={{
+          gridArea: 'flows',
+          overflowY: 'auto',
+          height: '100%',
+          maxHeight: '100%',
+          bgcolor: 'background.paper',
+          borderRadius: 2,
+          p: 2,
+        }}
+      >
         <FlowInspector />
       </Box>
     </DashboardLayout>

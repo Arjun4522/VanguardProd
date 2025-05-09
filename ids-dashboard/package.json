@@ -23,6 +23,7 @@
     "react-force-graph-2d": "^1.27.1",
     "react-force-graph-3d": "^1.26.1",
     "react-redux": "^9.2.0",
+    "react-swipeable-views": "^0.14.0",
     "recharts": "^2.15.3"
   },
   "devDependencies": {

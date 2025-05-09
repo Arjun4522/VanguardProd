@@ -16,7 +16,7 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic network-
 source env2/bin/activate
 
 python3 kafka_consume_api.py
-uvicorn kafka_consume_api:app --reload --ws websockets
+uvicorn kafka_consume_api:app --port 8888
 
 Set up Redis consumer
 ----------------------

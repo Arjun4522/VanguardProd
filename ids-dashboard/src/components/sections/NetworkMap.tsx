@@ -38,7 +38,6 @@ export const NetworkMap: React.FC = () => {
         });
       }
     });
-
     return {
       nodes: Array.from(nodes.values()),
       links
@@ -63,6 +62,10 @@ export const NetworkMap: React.FC = () => {
             }}
             linkColor={() => theme.palette.text.secondary}
             linkWidth={link => (link.value || 1) * 0.5}
+            linkDistance={150}
+            d3AlphaDecay={0.02}
+            d3VelocityDecay={0.1}
+            cooldownTime={3000}
             nodeCanvasObject={(node, ctx) => {
               const label = formatIP(node.id);
               const fontSize = 10;

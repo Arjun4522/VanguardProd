@@ -15,6 +15,10 @@ httpx  # for async HTTP requests
 websockets  # for WebSocket support
 asyncio  # for async operations
 
+# Async/WebSocket support
+websockets  # for WebSocket support
+asyncio  # for async operations
+
 # Optional but recommended
 gunicorn  # for FastAPI production server
-python-multipart  # if handling file uploads with FastAPI
+
