@@ -228,6 +228,7 @@ graph TB
     
     K[🧠 ML Model] --> L[🤖 Anomaly Detection]
     L --> M[🚨 Alert System]
+    M --> D
     
     J --> N[⚛️ React Dashboard]
     I --> N
