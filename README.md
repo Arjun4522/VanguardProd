@@ -1,5 +1,7 @@
 # 🛡️ VANGUARD: Versatile Aggregation for Networked Governance Using Unified AI with Reinforced Decisionin
 
+![Dashboard](https://raw.githubusercontent.com/Arjun4522/VanguardProd/main/snapshots/dash.jpeg)
+
 
 **VANGUARD** is an advanced, modular network intrusion detection and governance system that integrates cutting-edge techniques in artificial intelligence (AI), federated learning, differential privacy (DP), and blockchain-inspired aggregation mechanisms to ensure real-time, scalable, and secure detection of network anomalies and cyber threats.
 
